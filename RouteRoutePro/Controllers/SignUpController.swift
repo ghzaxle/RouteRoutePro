@@ -9,12 +9,29 @@
 import Foundation
 import UIKit
 
-class SignUpController: UIViewController {
+class SignUpController: UIViewController, UITextFieldDelegate {
+    
+    @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var password: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.name.delegate = self
+        self.email.delegate = self
+        self.password.delegate = self
     }
     
+    //complete keyboard
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return false
+    }
+    
+    //hide keyborad
+    @IBAction func tapView(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
 }
 

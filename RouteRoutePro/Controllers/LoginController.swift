@@ -9,14 +9,30 @@
 import Foundation
 import UIKit
 
-class LoginController: UIViewController {
+class LoginController: UIViewController, UITextFieldDelegate {
+    
+    @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var email: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.password.delegate = self
+        self.email.delegate = self
     }
 
     @IBAction func touchLoginDo(_ sender: Any) {
         self.performSegue(withIdentifier: "doLogin", sender: self)
     }
+    
+    //complete keyboard
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return false
+    }
+    
+    // hide keyboard
+    @IBAction func tapView(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }    
 }

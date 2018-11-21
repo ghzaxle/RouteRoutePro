@@ -16,6 +16,8 @@ class RouteEventController: UIViewController,CLLocationManagerDelegate, MKMapVie
     @IBOutlet weak var mapView: MKMapView!
     
     @IBOutlet weak var datetextform: UITextField!
+    @IBOutlet weak var eventname: UITextField!
+    @IBOutlet weak var eventDetail: UITextField!
     
     // map
     var locationManager = CLLocationManager()
@@ -29,8 +31,9 @@ class RouteEventController: UIViewController,CLLocationManagerDelegate, MKMapVie
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        locationManager.delegate = self
+        self.eventname.delegate = self
+        self.eventDetail.delegate = self
+        self.locationManager.delegate = self
         
         // ロケーションの精度を設定する
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -130,22 +133,6 @@ class RouteEventController: UIViewController,CLLocationManagerDelegate, MKMapVie
         print("map failed..")
     }
     
-    // 利用できる位置情報か確認
-    func filterAndAddLocation(_ location: CLLocation) -> Bool{
-        let age = -location.timestamp.timeIntervalSinceNow
-        
-        if age > 10{
-            return false
-        }
-        if location.horizontalAccuracy < 0{
-            return false
-        }
-        if location.horizontalAccuracy > 100{
-            return false
-        }
-        return true
-    }
-
     //long press map
     @IBAction func pressMap(_ sender: UILongPressGestureRecognizer) {
         print("long")
@@ -182,8 +169,18 @@ class RouteEventController: UIViewController,CLLocationManagerDelegate, MKMapVie
         }
     }
 
+    //complete keyboard
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return false
+    }
     
     //event登録ボタン押下
     @IBAction func touchRouteEvent(_ sender: Any) {
+    }
+    
+    //hide keyborad
+    @IBAction func tapView(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
 }

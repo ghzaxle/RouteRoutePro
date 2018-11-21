@@ -20,6 +20,9 @@
 		450741752195940200008C5C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 450741742195940200008C5C /* MapKit.framework */; };
 		450741772195940800008C5C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 450741762195940700008C5C /* CoreLocation.framework */; };
 		450741792195966600008C5C /* RouteEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450741782195966600008C5C /* RouteEventController.swift */; };
+		4507417D2196060E00008C5C /* UserEventActiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4507417C2196060E00008C5C /* UserEventActiveController.swift */; };
+		4507417F2196062C00008C5C /* OwnerEventActiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4507417E2196062C00008C5C /* OwnerEventActiveController.swift */; };
+		450741822196135E00008C5C /* UIView+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450741812196135E00008C5C /* UIView+Border.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +62,9 @@
 		450741742195940200008C5C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		450741762195940700008C5C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		450741782195966600008C5C /* RouteEventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteEventController.swift; sourceTree = "<group>"; };
+		4507417C2196060E00008C5C /* UserEventActiveController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventActiveController.swift; sourceTree = "<group>"; };
+		4507417E2196062C00008C5C /* OwnerEventActiveController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerEventActiveController.swift; sourceTree = "<group>"; };
+		450741812196135E00008C5C /* UIView+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Border.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +118,7 @@
 		450740C6219564B400008C5C /* RouteRoutePro */ = {
 			isa = PBXGroup;
 			children = (
+				450741802196132C00008C5C /* setting */,
 				450740CB219564B400008C5C /* Main.storyboard */,
 				450740C9219564B400008C5C /* ViewController.swift */,
 				4507416E2195888500008C5C /* Models */,
@@ -149,6 +156,8 @@
 				4507416C2195851D00008C5C /* SignUpController.swift */,
 				45074171219590A600008C5C /* EventListController.swift */,
 				450741782195966600008C5C /* RouteEventController.swift */,
+				4507417C2196060E00008C5C /* UserEventActiveController.swift */,
+				4507417E2196062C00008C5C /* OwnerEventActiveController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -167,6 +176,14 @@
 				450741742195940200008C5C /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		450741802196132C00008C5C /* setting */ = {
+			isa = PBXGroup;
+			children = (
+				450741812196135E00008C5C /* UIView+Border.swift */,
+			);
+			path = setting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,9 +317,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4507417F2196062C00008C5C /* OwnerEventActiveController.swift in Sources */,
 				450740CA219564B400008C5C /* ViewController.swift in Sources */,
+				450741822196135E00008C5C /* UIView+Border.swift in Sources */,
 				4507416B219584D600008C5C /* LoginController.swift in Sources */,
 				450740C8219564B400008C5C /* AppDelegate.swift in Sources */,
+				4507417D2196060E00008C5C /* UserEventActiveController.swift in Sources */,
 				4507416D2195851D00008C5C /* SignUpController.swift in Sources */,
 				450741792195966600008C5C /* RouteEventController.swift in Sources */,
 				45074172219590A600008C5C /* EventListController.swift in Sources */,
