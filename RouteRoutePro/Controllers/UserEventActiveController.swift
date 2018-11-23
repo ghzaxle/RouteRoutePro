@@ -6,116 +6,214 @@
 //  Copyright © 2018年 安齋洸也. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import MapKit
-import CoreLocation
 
-class UserEventController: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate {
+class UserEventController: UIViewController, MKMapViewDelegate, LocationDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    
-    @IBOutlet weak var time: UILabel!
+
+    @IBOutlet weak var minute: UILabel!
+    @IBOutlet weak var hour: UILabel!
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var speed: UILabel!
     
-    // map
-    var locationManager = CLLocationManager()
+    // map elements
+    var userAnnotationImage: UIImage?
+    var userAnnotation: UserAnnotation?
     var accuracyRangeCircle: MKCircle?
+    var polyline: MKPolyline?
+    var isZooming: Bool?
+    var isBlockingAutoZoom: Bool?
+    var zoomBlockingTimer: Timer?
+    var didInitialZoom: Bool?
     
+    // distance
+    var distanceAll: Double = 0
+    
+    // eventendtime
+    var date:Date?
+    
+    
+    // data
     var data:(eventid: String, eventtitle:String, eventdetail:String, ownerid:String)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        //settings
-        print(data?.eventdetail as Any)
-	
-        //map
-        self.locationManager.delegate = self
-        
-        mapView.setCenter(mapView.userLocation.coordinate, animated: true)
-        mapView.userTrackingMode = MKUserTrackingMode.follow
-        
-        
-        // ロケーションの精度を設定する
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        // 更新距離（メートル）
-        locationManager.distanceFilter = 5
-        
+        // settings
+        self.mapView.delegate = self
         self.mapView.showsUserLocation = false
+        
+        self.userAnnotationImage = UIImage(named: "user_position_ball")!
         
         self.accuracyRangeCircle = MKCircle(center: CLLocationCoordinate2D.init(latitude: 41.887, longitude: -87.622), radius: 50)
         self.mapView.addOverlay(self.accuracyRangeCircle!)
+        
+        
+        self.didInitialZoom = false
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(UserEventController.updateMap(_:)), name: Notification.Name(rawValue:"didUpdateLocation"), object: nil)
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(UserEventController.showTurnOnLocationServiceAlert(_:)), name: Notification.Name(rawValue:"showTurnOnLocationServiceAlert"), object: nil)
+        
+        LocationService.sharedInstance.startUpdatingLocation()
+        LocationService.sharedInstance.delegate = self;
+        //LocationService.sharedInstance.useFilter = true
+        
+        let dateFormater = DateFormatter()
+        dateFormater.locale = Locale(identifier: "ja_JP")
+        dateFormater.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        date = dateFormater.date(from: "2018/11/22 19:12:12")
     }
     
-    // 位置情報利用許可のステータスが変わった
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status{
-        case .authorizedAlways, .authorizedWhenInUse:
-            // 利用可に変更された
-            locationManager.startUpdatingLocation()
-        case .notDetermined:
-            // 位置情報取得確認のメッセージを表示。必須。
-            locationManager.requestAlwaysAuthorization()
-            locationManager.allowsBackgroundLocationUpdates = true
-            locationManager.pausesLocationUpdatesAutomatically = false
-        default:
-            locationManager.stopUpdatingLocation()
+    @objc func showTurnOnLocationServiceAlert(_ notification: NSNotification){
+        let alert = UIAlertController(title: "Turn on Location Service", message: "To use location tracking feature of the app, please turn on the location service from the Settings app.", preferredStyle: .alert)
+        
+        let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
+            let settingsUrl = URL(string: UIApplication.openSettingsURLString)
+            if let url = settingsUrl {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
         }
-    }
-    
-    // 位置を移動した
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        let locationData = locations.last
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
+        alert.addAction(settingsAction)
+        alert.addAction(cancelAction)
         
-        // 取得した位置情報の緯度経度
-        let latitude = locationData?.coordinate.latitude
-        let longitude = locationData?.coordinate.longitude
-        let location = CLLocationCoordinate2DMake(latitude!,longitude!)
         
-        print("(\(String(describing: latitude)), \(String(describing: longitude)))");
-        
-        // 表示するマップの中心を、取得した位置情報のポイントに指定
-        mapView.setCenter(location, animated: true)
-        
-        // 表示する領域を設定する
-        var region: MKCoordinateRegion = mapView.region
-        // 領域設定の中心
-        region.center = location
-        // 表示する領域の拡大・縮小の係数
-        region.span.latitudeDelta = 0.02
-        region.span.longitudeDelta = 0.02
-        
-        // 決定した表示設定をMapViewに適用
-        mapView.setRegion(region, animated: true)
-        
-        // 地図の形式。Standardがデフォルトの地図。Satteliteが航空地図。
-        mapView.mapType = MKMapType.standard
-        // 位置情報は既に取得したので、これ以降取得を行わないように位置情報取得を停止
-//        locationManager.stopUpdatingLocation()
+        present(alert, animated: true, completion: nil)
         
     }
     
-    // 位置情報取得が失敗した際に呼ばれる。
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("map failed..")
+    @objc func updateMap(_ notification: NSNotification){
+        if let userInfo = notification.userInfo{
+            
+            updatePolylines()
+            
+            if let newLocation = userInfo["location"] as? CLLocation{
+                zoomTo(location: newLocation)
+            }
+            
+        }
     }
     
-    // 利用できる位置情報か確認
-    func filterAndAddLocation(_ location: CLLocation) -> Bool{
-        let age = -location.timestamp.timeIntervalSinceNow
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         
-        if age > 10{
-            return false
+        if overlay === self.accuracyRangeCircle{
+            let circleRenderer = MKCircleRenderer(circle: overlay as! MKCircle)
+            circleRenderer.fillColor = UIColor(white: 0.0, alpha: 0.25)
+            circleRenderer.lineWidth = 0
+            return circleRenderer
+        }else{
+            let polylineRenderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
+            polylineRenderer.strokeColor = UIColor.red
+            polylineRenderer.alpha = 0.5
+            polylineRenderer.lineWidth = 5.0
+            return polylineRenderer
         }
-        if location.horizontalAccuracy < 0{
-            return false
+    }
+    
+    func updatePolylines(){
+        var coordinateArray = [CLLocationCoordinate2D]()
+        
+        for loc in LocationService.sharedInstance.locationDataArray{
+            coordinateArray.append(loc.coordinate)
         }
-        if location.horizontalAccuracy > 100{
-            return false
+        
+        self.clearPolyline()
+        
+        self.polyline = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+        self.mapView.addOverlay(polyline as! MKOverlay)
+        
+    }
+    
+    func clearPolyline(){
+        if self.polyline != nil{
+            self.mapView.removeOverlay(self.polyline!)
+            self.polyline = nil
         }
-        return true
+    }
+    
+    func zoomTo(location: CLLocation){
+        if self.didInitialZoom == false{
+            let coordinate = location.coordinate
+            let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 300, longitudinalMeters: 300)
+            self.mapView.setRegion(region, animated: false)
+            self.didInitialZoom = true
+        }
+        
+        if self.isBlockingAutoZoom == false{
+            self.isZooming = true
+            self.mapView.setCenter(location.coordinate, animated: true)
+        }
+        
+        var accuracyRadius = 50.0
+        if location.horizontalAccuracy > 0{
+            if location.horizontalAccuracy > accuracyRadius{
+                accuracyRadius = location.horizontalAccuracy
+            }
+        }
+        
+        self.mapView.removeOverlay(self.accuracyRangeCircle!)
+        self.accuracyRangeCircle = MKCircle(center: location.coordinate, radius: accuracyRadius as CLLocationDistance)
+        self.mapView.addOverlay(self.accuracyRangeCircle!)
+        
+        if self.userAnnotation != nil{
+            self.mapView.removeAnnotation(self.userAnnotation!)
+        }
+        
+        self.userAnnotation = UserAnnotation(coordinate: location.coordinate, title: "", subtitle: "")
+        self.mapView.addAnnotation(self.userAnnotation!)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation{
+            return nil
+        }else{
+            let identifier = "UserAnnotation"
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            if annotationView != nil{
+                annotationView!.annotation = annotation
+            }else{
+                annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            }
+            annotationView!.canShowCallout = false
+            annotationView!.image = self.userAnnotationImage
+            
+            return annotationView
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        if self.isZooming == true{
+            self.isZooming = false
+            self.isBlockingAutoZoom = false
+        }else{
+            self.isBlockingAutoZoom = true
+            if let timer = self.zoomBlockingTimer{
+                if timer.isValid{
+                    timer.invalidate()
+                }
+            }
+            self.zoomBlockingTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false, block: { (Timer) in
+                self.zoomBlockingTimer = nil
+                self.isBlockingAutoZoom = false;
+            })
+        }
+    }
+    
+    func mapinfodelegate(mapspeed: CLLocationSpeed, mapdistance: CLLocationDistance) {
+        let sp = round(mapspeed * 10) / 10
+        speed.text = String(format:"%.1f", sp)
+        distanceAll = distanceAll + round(mapdistance * 10) / 10
+        distance.text = String(format:"%.1f", distanceAll)
+        
+        let mi = (date?.minutesFrom())! % 24
+        let ho = (date?.hoursFrom())! % 60
+        minute.text = String(mi)
+        hour.text = String(ho)
     }
 }
