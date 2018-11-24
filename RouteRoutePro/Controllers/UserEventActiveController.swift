@@ -41,6 +41,9 @@ class UserEventController: UIViewController, MKMapViewDelegate, LocationDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        //title setting
+        self.title = data.name
+        
         // settings
         self.mapView.delegate = self
         self.mapView.showsUserLocation = false

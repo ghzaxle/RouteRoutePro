@@ -27,6 +27,10 @@ class OwnerEventController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        //title setting
+        self.title = data.name
+        
         //目的地
         annotationgoal.coordinate = CLLocationCoordinate2DMake(Double(data!.latitude)!, Double(data!.longitude)!)
         annotationgoal.title = "Goal"

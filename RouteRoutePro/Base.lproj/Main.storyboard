@@ -590,7 +590,7 @@
                                 <textInputTraits key="textInputTraits" textContentType="nickname"/>
                             </textField>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bFB-dn-wPW">
-                                <rect key="frame" x="16" y="300" width="343" height="256"/>
+                                <rect key="frame" x="16" y="310" width="343" height="256"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES"/>
                                 <gestureRecognizers/>
                                 <connections>
