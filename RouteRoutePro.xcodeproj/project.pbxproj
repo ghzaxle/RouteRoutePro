@@ -136,7 +136,7 @@
 			children = (
 				4507418A21A580C300008C5C /* Maps */,
 				4507418321A56E0100008C5C /* Tools */,
-				450741802196132C00008C5C /* Setting */,
+				450741802196132C00008C5C /* setting */,
 				450740CB219564B400008C5C /* Main.storyboard */,
 				450740C9219564B400008C5C /* ViewController.swift */,
 				4507416E2195888500008C5C /* Models */,
@@ -197,13 +197,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		450741802196132C00008C5C /* Setting */ = {
+		450741802196132C00008C5C /* setting */ = {
 			isa = PBXGroup;
 			children = (
 				450741812196135E00008C5C /* UIView+Border.swift */,
 				4507418F21A6299800008C5C /* DateExtention.swift */,
 			);
-			path = Setting;
+			path = setting;
 			sourceTree = "<group>";
 		};
 		4507418321A56E0100008C5C /* Tools */ = {

@@ -36,7 +36,7 @@ class UserEventController: UIViewController, MKMapViewDelegate, LocationDelegate
     
     
     // data
-    var data:(eventid: String, eventtitle:String, eventdetail:String, ownerid:String)?
+    var data:(id:String, name:String, detail:String, email:String, latitude:String, longitude:String, date:String, starttime:String, endtime:String)!
     
     override func viewDidLoad() {
         super.viewDidLoad()

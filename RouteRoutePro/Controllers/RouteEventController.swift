@@ -19,6 +19,12 @@ class RouteEventController: UIViewController,CLLocationManagerDelegate, MKMapVie
     @IBOutlet weak var eventname: UITextField!
     @IBOutlet weak var eventDetail: UITextField!
     
+    @IBOutlet weak var starttime: UITextField!
+    @IBOutlet weak var endtime: UITextField!
+    
+    var goallat:Double!
+    var goallog:Double!
+    
     // map
     var locationManager = CLLocationManager()
     var accuracyRangeCircle: MKCircle?
@@ -158,6 +164,8 @@ class RouteEventController: UIViewController,CLLocationManagerDelegate, MKMapVie
             
             mapAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
                 self.mapView.addAnnotation(annotation)
+                self.goallat = annotation.coordinate.latitude
+                self.goallog = annotation.coordinate.longitude
             }))
             
             mapAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -177,6 +185,13 @@ class RouteEventController: UIViewController,CLLocationManagerDelegate, MKMapVie
     
     //event登録ボタン押下
     @IBAction func touchRouteEvent(_ sender: Any) {
+        print(datetextform.text as Any)
+        print(eventname.text as Any)
+        print(eventDetail.text as Any)
+        print(endtime.text as Any)
+        print(starttime.text as Any)
+        print(goallat)
+        print(goallog)
     }
     
     //hide keyborad

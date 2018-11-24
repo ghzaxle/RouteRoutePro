@@ -22,6 +22,9 @@ class LoginController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func touchLoginDo(_ sender: Any) {
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as!     AppDelegate
+        appDelegate.email = "horifuga@yahoo.co.jp"
+        
         self.performSegue(withIdentifier: "doLogin", sender: self)
     }
     
