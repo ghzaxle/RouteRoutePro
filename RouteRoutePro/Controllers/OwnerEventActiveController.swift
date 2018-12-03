@@ -17,7 +17,7 @@ class OwnerEventController: UIViewController {
     // data
     var data:(id:String, name:String, detail:String, email:String, latitude:String, longitude:String, date:String, starttime:String, endtime:String)!
     
-    var userpositions = [ (name: "Horiuchi",email: "horihori@gmail.com",latitude: "35.658582",longitude:"139.745435"),(name: "Anzai",email: "zaizai@gmail.com",latitude: "35.668581",longitude: "139.755433"),(name: "Natsui",email: "natsu@gmail.com",latitude: "35.678583",longitude: "139.735432")]
+    var userpositions = [ (name: "Horiuchi",email: "horihori@gmail.com",latitude: "35.658582",longitude: "139.745435"),(name: "Anzai",email: "zaizai@gmail.com",latitude: "35.668581",longitude: "139.755433"),(name: "Natsui",email: "natsu@gmail.com",latitude: "35.678583",longitude: "139.735432"),(name: "Tanaka",email: "Tanaka@gmail.com",latitude: "35.668583",longitude: "139.735432")]
     
     var annotationArray: [MKAnnotation] = []
     var annotationgoal:MKPointAnnotation = MKPointAnnotation()
@@ -37,7 +37,7 @@ class OwnerEventController: UIViewController {
         mapView.addAnnotation(annotationgoal)
         
         //timer処理
-        timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: { (timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true, block: { (timer) in
             //self.count値をコンソールへ出力
             print("aaa")
             

@@ -34,12 +34,19 @@ class UserEventController: UIViewController, MKMapViewDelegate, LocationDelegate
     // eventendtime
     var date:Date?
     
+    // goal
+    var annotationgoal:MKPointAnnotation = MKPointAnnotation()
     
     // data
     var data:(id:String, name:String, detail:String, email:String, latitude:String, longitude:String, date:String, starttime:String, endtime:String)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //目的地
+        annotationgoal.coordinate = CLLocationCoordinate2DMake(Double(data!.latitude)!, Double(data!.longitude)!)
+        annotationgoal.title = "Goal"
+        mapView.addAnnotation(annotationgoal)
+
         // Do any additional setup after loading the view, typically from a nib.
         //title setting
         self.title = data.name
@@ -211,7 +218,7 @@ class UserEventController: UIViewController, MKMapViewDelegate, LocationDelegate
     func mapinfodelegate(mapspeed: CLLocationSpeed, mapdistance: CLLocationDistance) {
         let sp = round(mapspeed * 10) / 10
         speed.text = String(format:"%.1f", sp)
-        distanceAll = distanceAll + round(mapdistance * 10) / 10
+        distanceAll = distanceAll + (round(mapdistance / 1000 * 10) / 10)
         distance.text = String(format:"%.1f", distanceAll)
         
         let mi = (date?.minutesFrom())! % 24

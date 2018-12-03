@@ -48,7 +48,6 @@ class HttpUtil: AFHTTPSessionManager {
         }else{
             post(url, parameters: parameters, progress:nil, success: successBlock, failure: failureBlock)
         }
-    }
-    
+    }    
 }
 

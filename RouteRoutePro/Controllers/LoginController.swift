@@ -34,6 +34,22 @@ class LoginController: UIViewController, UITextFieldDelegate {
         return false
     }
     
+    // login method
+    func loginRequest(){
+    }
+    
+    // json -> 配列型
+    func convertStringToDictionary(text: String) -> [String:AnyObject]? {
+        if let data = text.data(using: String.Encoding.utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: [JSONSerialization.ReadingOptions.init(rawValue: 0)]) as? [String:AnyObject]
+            } catch let error as NSError {
+                print(error)
+            }
+        }
+        return nil
+    }
+    
     // hide keyboard
     @IBAction func tapView(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)

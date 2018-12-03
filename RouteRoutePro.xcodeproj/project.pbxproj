@@ -28,6 +28,8 @@
 		4507418C21A580D300008C5C /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4507418B21A580D300008C5C /* LocationService.swift */; };
 		4507418E21A5826C00008C5C /* UserAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4507418D21A5826C00008C5C /* UserAnnotation.swift */; };
 		4507419021A6299800008C5C /* DateExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4507418F21A6299800008C5C /* DateExtention.swift */; };
+		45561D9421B56F44005C9439 /* MyUINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45561D9321B56F44005C9439 /* MyUINavigationController.swift */; };
+		455D2A0C21B4167A0087F4BD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D2A0B21B4167A0087F4BD /* User.swift */; };
 		ACAD05A2400AD28A1E7834AA /* Pods_RouteRoutePro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350D082C8D822FDDE4AFE016 /* Pods_RouteRoutePro.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +80,8 @@
 		4507418B21A580D300008C5C /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		4507418D21A5826C00008C5C /* UserAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAnnotation.swift; sourceTree = "<group>"; };
 		4507418F21A6299800008C5C /* DateExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtention.swift; sourceTree = "<group>"; };
+		45561D9321B56F44005C9439 /* MyUINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUINavigationController.swift; sourceTree = "<group>"; };
+		455D2A0B21B4167A0087F4BD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		98529819793B756910DDE72A /* Pods-RouteRoutePro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteRoutePro.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RouteRoutePro/Pods-RouteRoutePro.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,6 +187,7 @@
 		4507416E2195888500008C5C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				455D2A0B21B4167A0087F4BD /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -202,6 +207,7 @@
 			children = (
 				450741812196135E00008C5C /* UIView+Border.swift */,
 				4507418F21A6299800008C5C /* DateExtention.swift */,
+				45561D9321B56F44005C9439 /* MyUINavigationController.swift */,
 			);
 			path = setting;
 			sourceTree = "<group>";
@@ -432,6 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4507417F2196062C00008C5C /* OwnerEventActiveController.swift in Sources */,
+				45561D9421B56F44005C9439 /* MyUINavigationController.swift in Sources */,
 				4507418E21A5826C00008C5C /* UserAnnotation.swift in Sources */,
 				450740CA219564B400008C5C /* ViewController.swift in Sources */,
 				4507418721A56EAD00008C5C /* CBToast.swift in Sources */,
@@ -439,6 +446,7 @@
 				4507416B219584D600008C5C /* LoginController.swift in Sources */,
 				450740C8219564B400008C5C /* AppDelegate.swift in Sources */,
 				4507417D2196060E00008C5C /* UserEventActiveController.swift in Sources */,
+				455D2A0C21B4167A0087F4BD /* User.swift in Sources */,
 				4507416D2195851D00008C5C /* SignUpController.swift in Sources */,
 				4507418C21A580D300008C5C /* LocationService.swift in Sources */,
 				4507419021A6299800008C5C /* DateExtention.swift in Sources */,
