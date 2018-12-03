@@ -226,4 +226,23 @@ class UserEventController: UIViewController, MKMapViewDelegate, LocationDelegate
         minute.text = String(mi)
         hour.text = String(ho)
     }
+    
+    // tap quit
+    @IBAction func tapQuit(_ sender: UIBarButtonItem) {
+        let title = "イベントの終了"
+        let message = "イベントを終了します。よろしいでしょうか？"
+        
+        let mapAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        
+        mapAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        
+        mapAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            print("Handle Cancel Logic here")
+        }))
+        
+        present(mapAlert, animated: true, completion: nil)
+
+    }
 }

@@ -15,8 +15,8 @@ class MyUINavigationController: UINavigationController{
     override func viewDidLoad() {
         super.viewDidLoad()
         //　ナビゲーションバーの背景色
-        //0.529,0.809,0.922
-        navigationBar.barTintColor = UIColor(displayP3Red: 0.529, green: 0.809, blue: 0.922, alpha: 1.0)
+        //0.392,0.584,0.929
+        navigationBar.barTintColor = UIColor(displayP3Red: 0.392, green: 0.584, blue: 0.929, alpha: 1.0)
         // ナビゲーションバーのアイテムの色　（戻る　＜　とか　読み込みゲージとか）
         navigationBar.tintColor = .white
         // ナビゲーションバーのテキストを変更する
