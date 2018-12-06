@@ -76,7 +76,7 @@ class UserEventController: UIViewController, MKMapViewDelegate, LocationDelegate
         let dateFormater = DateFormatter()
         dateFormater.locale = Locale(identifier: "ja_JP")
         dateFormater.dateFormat = "yyyy/MM/dd HH:mm:ss"
-        date = dateFormater.date(from: "2018/11/22 19:12:12")
+        date = dateFormater.date(from: "2018/12/06 20:12:12")
     }
     
     @objc func showTurnOnLocationServiceAlert(_ notification: NSNotification){
@@ -218,8 +218,10 @@ class UserEventController: UIViewController, MKMapViewDelegate, LocationDelegate
     func mapinfodelegate(mapspeed: CLLocationSpeed, mapdistance: CLLocationDistance) {
         let sp = round(mapspeed * 10) / 10
         speed.text = String(format:"%.1f", sp)
-        distanceAll = distanceAll + (round(mapdistance / 1000 * 10) / 10)
-        distance.text = String(format:"%.1f", distanceAll)
+        let dis1 = mapdistance / 1000
+        distanceAll = distanceAll + dis1
+        let dis = round(distanceAll * 10) / 10
+        distance.text = String(format:"%.1f", dis)
         
         let mi = (date?.minutesFrom())! % 24
         let ho = (date?.hoursFrom())! % 60
